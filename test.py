@@ -9,7 +9,6 @@ os.environ["HOST"] = "v2-backend-dev.cw2dxsgsldpl.eu-west-1.rds.amazonaws.com"
 os.environ["USER"] = "pitch"
 os.environ["PASSWORD"] = "vbH456jE"
 os.environ["PORT"] = "5432"
-os.environ["PORT"] = "5432"
 
 os.environ["EVENT_LOG_DYNAMODB"] = "EventLog-dev"
 os.environ["EVENT_LOG_REGION"] = "eu-west-1"

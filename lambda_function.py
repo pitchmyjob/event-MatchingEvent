@@ -87,6 +87,17 @@ def lambda_handler(event, context):
     res = reponse['Item']
 
     Candidacy(res['id'], res['event'])
+    
+    table.update_item(
+        Key={
+            'type': 'MatchingEvent',
+            'uuid': event['uuid']
+        },
+        UpdateExpression="set is_read = :val",
+        ExpressionAttributeValues={
+            ':val': True
+        }
+    )
 
 
 
