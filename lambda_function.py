@@ -80,7 +80,6 @@ class Candidacy(object):
 
 
 def lambda_handler(event, context):
-
     dynamodb = boto3.session.Session(region_name=os.environ["EVENT_LOG_REGION"]).resource('dynamodb')
     table = dynamodb.Table(os.environ["EVENT_LOG_DYNAMODB"])
 
