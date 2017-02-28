@@ -87,16 +87,17 @@ def lambda_handler(event, context):
     reponse = table.get_item(Key={'type': 'MatchingEvent', 'uuid': event['uuid']})
     res = reponse['Item']
 
-    Candidacy(res['id'], res['event'])
+    cd = Candidacy(res['id'], res['event'])
     
     table.update_item(
         Key={
             'type': 'MatchingEvent',
             'uuid': event['uuid']
         },
-        UpdateExpression="set is_read = :val",
+        UpdateExpression="set is_read = :val, payload.count_matching = :tt  ",
         ExpressionAttributeValues={
-            ':val': True
+            ':val': True,
+            ':tt' : len(cd.results)
         }
     )
 

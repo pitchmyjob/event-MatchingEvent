@@ -28,7 +28,7 @@ response = table.query(
 
 
 event = {
-        'uuid': "4e906357-3f2d-48fe-88e4-3039c30b5861",
+        'uuid': "052fee7c-a588-445b-900e-427120359bb2",
         'setting': "dev"
 }
 
