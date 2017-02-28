@@ -26,7 +26,18 @@ response = table.query(
 )
 
 
+
+event = {
+        'uuid': "4e906357-3f2d-48fe-88e4-3039c30b5861",
+        'setting': "dev"
+}
+
+print(event)
+lambda_handler(event, None)
+
+
 for res in response['Items']:
+    break
     event = {
         'uuid': res['uuid'],
         'setting': "dev"

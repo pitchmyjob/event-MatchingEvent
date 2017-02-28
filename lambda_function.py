@@ -50,10 +50,11 @@ class Candidacy(object):
         conn = psycopg2.connect(database=self.database, user=self.user, password=self.password, host=self.host, port=self.port)
         cur = conn.cursor()
 
-        datas = ','.join(cur.mogrify("(%s,%s,'M', now())", (self.id, row['_id'])) for row in self.results)
-        cur.execute('insert into candidacy_candidacy ('+self.matching['insert']+', status, date_matching) values ' + datas + ' ON CONFLICT (job_id, applicant_id) DO NOTHING ')
+        if self.results:
+            datas = ','.join(cur.mogrify("(%s,%s,'M', now())", (self.id, row['_id'])) for row in self.results)
+            cur.execute('insert into candidacy_candidacy ('+self.matching['insert']+', status, date_matching) values ' + datas + ' ON CONFLICT (job_id, applicant_id) DO NOTHING ')
+            conn.commit()
 
-        conn.commit()
         conn.close()
 
 
@@ -61,7 +62,7 @@ class Candidacy(object):
         lm = boto3.client("lambda")
 
         payload = {
-            "job" : 140,
+            "job" : int(self.id),
             "scroll" : True,
             "scroll_id" : scroll_id
         }
