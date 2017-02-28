@@ -51,7 +51,7 @@ class Candidacy(object):
         cur = conn.cursor()
 
         datas = ','.join(cur.mogrify("(%s,%s,'M', now())", (self.id, row['_id'])) for row in self.results)
-        cur.execute('insert into candidacy_candidacy ('+self.matching['insert']+', status, date_matching) values ' + datas)
+        cur.execute('insert into candidacy_candidacy ('+self.matching['insert']+', status, date_matching) values ' + datas + ' ON CONFLICT (job_id, applicant_id) DO NOTHING ')
 
         conn.commit()
         conn.close()
