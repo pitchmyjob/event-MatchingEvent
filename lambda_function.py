@@ -72,9 +72,9 @@ class Candidacy(object):
         self.max_score = res['max_score']
         self.results =  self.results + res['results']
 
-        if "scroll_id" in res:
-            if res['scroll_id']:
-                self.get_matching(res['scroll_id'])
+        if "scroll" in res:
+            if res['scroll']:
+                self.get_matching(res['scroll'])
 
 
 
