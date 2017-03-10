@@ -51,8 +51,13 @@ class Candidacy(object):
         cur = conn.cursor()
 
         if self.results:
-            datas = ','.join(cur.mogrify("(%s,%s,'M', now())", (self.id, row['_id'])) for row in self.results)
-            cur.execute('insert into candidacy_candidacy ('+self.matching['insert']+', status, date_matching) values ' + datas + ' ON CONFLICT (job_id, applicant_id) DO NOTHING ')
+
+            datas = ','.join(
+                cur.mogrify(
+                    "(%s, %s, %s,'M', now())",
+                    (int(row['_score'] / self.max_score * 100), self.id, row['_id'])) for row in self.results if int(row['_score'] / self.max_score * 100) > 30)
+
+            cur.execute('insert into candidacy_candidacy (matching_score, ' + self.matching['insert'] + ', status, date_matching) values ' + datas + ' ON CONFLICT (job_id, applicant_id) DO NOTHING ')
             conn.commit()
 
         conn.close()

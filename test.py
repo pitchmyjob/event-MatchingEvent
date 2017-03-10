@@ -32,7 +32,6 @@ event = {
         'setting': "dev"
 }
 
-print(event)
 lambda_handler(event, None)
 
 
