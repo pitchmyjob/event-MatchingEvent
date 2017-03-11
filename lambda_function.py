@@ -14,8 +14,8 @@ class Candidacy(object):
     port = None
     id = None
     event = {
-        "ApplicantMatchingWasRequested" : {"lambda" : "matching-Job", "field" : "job", "insert": "job_id, applicant_id" },
-        "JobMatchingWasRequested" : {"lambda" : "matching-Applicant", "field" : "applicant", "insert": "applicant_id, job_id" },
+        "ApplicantMatchingWasRequested" : {"lambda" : os.environ["LAMBDA_MATCHING_JOB"], "field" : "job", "insert": "job_id, applicant_id" },
+        "JobMatchingWasRequested" : {"lambda" : os.environ["LAMBDA_MATCHING_APPLICANT"], "field" : "applicant", "insert": "applicant_id, job_id" },
     }
     matching = None
     max_score = 0
@@ -86,8 +86,8 @@ class Candidacy(object):
 
 
 def lambda_handler(event, context):
-    dynamodb = boto3.session.Session(region_name=os.environ["EVENT_LOG_REGION"]).resource('dynamodb')
-    table = dynamodb.Table(os.environ["EVENT_LOG_DYNAMODB"])
+    dynamodb = boto3.session.Session().resource('dynamodb')
+    table = dynamodb.Table(os.environ["NAME_DYNAMODB_TABLE"])
 
     reponse = table.get_item(Key={'type': 'MatchingEvent', 'uuid': event['uuid']})
     res = reponse['Item']
